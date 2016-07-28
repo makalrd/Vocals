@@ -48,6 +48,8 @@ namespace Vocals {
         private GlobalHotkey ghk;
 
         bool listening = false;
+        
+        const string activeWindowConst = "- Active Window -";
 
         public Form1() {
             currentOptions = new Options();
@@ -102,10 +104,12 @@ namespace Vocals {
         }
 
         public void refreshProcessesList() {
+            myWindows.Add(activeWindowConst); //added "Active Window" option the first as default selection
+
             EnumWindows(new EnumWindowsProc(EnumTheWindows), IntPtr.Zero);
+            
             comboBox1.DataSource = null;
             comboBox1.DataSource = myWindows;
-
         }
 
         void fetchProfiles() {
@@ -165,16 +169,22 @@ namespace Vocals {
                 currentOptions.language = System.Globalization.CultureInfo.CurrentUICulture.DisplayName;
             }
 
-            foreach (RecognizerInfo ri in SpeechRecognitionEngine.InstalledRecognizers()) {
-                if(ri.Culture.DisplayName.Equals(currentOptions.language)) {
-                    info = ri;
-                    break;
+            if (SpeechRecognitionEngine.InstalledRecognizers() != null)
+            {
+                foreach (RecognizerInfo ri in SpeechRecognitionEngine.InstalledRecognizers())
+                {
+                    if (ri.Culture.DisplayName.Equals(currentOptions.language))
+                    {
+                        info = ri;
+                        break;
+                    }
                 }
-            }
 
-            if (info == null && SpeechRecognitionEngine.InstalledRecognizers().Count != 0) {
-                RecognizerInfo ri = SpeechRecognitionEngine.InstalledRecognizers()[0];
-                info = ri;
+                if (info == null && SpeechRecognitionEngine.InstalledRecognizers().Count != 0)
+                {
+                    RecognizerInfo ri = SpeechRecognitionEngine.InstalledRecognizers()[0];
+                    info = ri;
+                }
             }
 
             if (info != null){
@@ -211,9 +221,11 @@ namespace Vocals {
 
         void sr_speechRecognized(object sender, SpeechRecognizedEventArgs e) {
 
-            richTextBox1.AppendText("Commande reconnue \"" + e.Result.Text + "\" with confidence of : " + e.Result.Confidence + "\n");
+            richTextBox1.AppendText("Command recognized \"" + e.Result.Text + "\" with confidence of : " + e.Result.Confidence + "\n");
 
             Profile p = (Profile)comboBox2.SelectedItem;
+
+            bool activeWindow = comboBox1.SelectedItem != null && comboBox1.SelectedItem.ToString().Equals(activeWindowConst);
 
             if (p != null) {
                 foreach (Command c in p.commandList) {
@@ -221,7 +233,7 @@ namespace Vocals {
                     foreach (string s in multiCommands) {
                         string correctedWord = s.Trim().ToLower();
                         if (correctedWord.Equals(e.Result.Text)) {
-                            c.perform(winPointer);
+                            c.perform(winPointer, activeWindow);
                             break;
                         }
                     }
