@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Vocals.InternalClasses;
 
 namespace Vocals {
     public partial class FormCommand : Form {
@@ -44,7 +45,14 @@ namespace Vocals {
             checkBox2.Checked = answeringSound;
 
             answeringSoundPath = c.answeringSoundPath;
-            textBox2.Text = answeringSoundPath;
+            
+            if (!string.IsNullOrEmpty(answeringSoundPath))
+            {
+                foreach(string soundPath in answeringSoundPath.Split(';'))
+                {
+                    dgvSounds.Rows.Add(new object[] { soundPath });
+                }
+            }
 
             listBox1.DataSource = actionList;
             textBox1.Text = commandString;
@@ -80,16 +88,6 @@ namespace Vocals {
                     listBox1.DataSource = actionList;
                 }
             }
-
-
-        }
-
-        private void FormPopup_Load(object sender, EventArgs e) {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
-
         }
 
         private void button4_Click(object sender, EventArgs e) {
@@ -115,13 +113,7 @@ namespace Vocals {
 
                 listBox1.DataSource = null;
                 listBox1.DataSource = actionList;
-
-
             }
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e) {
-
         }
 
         private void button6_Click(object sender, EventArgs e) {
@@ -160,35 +152,25 @@ namespace Vocals {
                 answeringSound = false;
             }
             answering = checkBox1.Checked;
-            
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e) {
-
-        }
-
-        private void richTextBox2_TextChanged(object sender, EventArgs e) {
-
         }
 
         private void button9_Click(object sender, EventArgs e) {
             OpenFileDialog ofd = new OpenFileDialog();
 
             ofd.Filter = "Sound file (*.wav,*.mp3)|*.wav;*.mp3";
+            ofd.Multiselect = true;
 
             if (ofd.ShowDialog() == DialogResult.OK && ofd.CheckPathExists) {
-                textBox2.Text = ofd.InitialDirectory + ofd.FileName;
-                answeringSoundPath = textBox2.Text ;
+                foreach(string filename in ofd.FileNames)
+                {
+                    dgvSounds.Rows.Add(new object[] { filename });
+
+                    if (answeringSoundPath.Length > 0)
+                        answeringSoundPath += ";";
+                    answeringSoundPath += filename;
+                }
             }
            
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e) {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e) {
-
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e) {
@@ -199,8 +181,69 @@ namespace Vocals {
             answeringSound = true;
         }
 
+        private void dgvSounds_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
 
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                e.RowIndex >= 0)
+            {
+                int rowHandler = e.RowIndex;
 
+                switch(senderGrid.Columns[e.ColumnIndex].Name)
+                {
+                    case "PlaySound":
+                        string soundPath = senderGrid.Rows[rowHandler].Cells["SoundPath"].Value.ToString();
+                        Utils.PlaySound(soundPath);
+                        break;
 
+                    case "RemoveSound":
+                        if (MessageBox.Show("Are you sure you want to remove this Sound?", "Question", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            dgvSounds.Rows.RemoveAt(e.RowIndex);
+                            answeringSoundPath = string.Empty;
+                            foreach (DataGridViewRow r in dgvSounds.Rows)
+                            {
+                                if (answeringSoundPath.Length > 0)
+                                    answeringSoundPath += ";";
+                                answeringSoundPath += r.Cells["SoundPath"].Value.ToString();
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void dgvSounds_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+                DataGridViewButtonCell cellButton = senderGrid.Rows[e.RowIndex].Cells[senderGrid.Columns[e.ColumnIndex].Name] as DataGridViewButtonCell;
+
+                switch (senderGrid.Columns[e.ColumnIndex].Name)
+                {
+                    case "PlaySound":
+                        e.Graphics.DrawIcon(Vocals.Properties.Resources.PlayIcon, e.CellBounds.Left + 2, e.CellBounds.Top);
+
+                        senderGrid.Rows[e.RowIndex].Height = Vocals.Properties.Resources.PlayIcon.Height;
+                        senderGrid.Columns[e.ColumnIndex].Width = Vocals.Properties.Resources.PlayIcon.Width + 4;
+
+                        break;
+
+                    case "RemoveSound":
+                        e.Graphics.DrawIcon(Vocals.Properties.Resources.NoIcon, e.CellBounds.Left + 2, e.CellBounds.Top);
+
+                        senderGrid.Rows[e.RowIndex].Height = Vocals.Properties.Resources.NoIcon.Height;
+                        senderGrid.Columns[e.ColumnIndex].Width = Vocals.Properties.Resources.NoIcon.Width + 4;
+
+                        break;
+                }
+                e.Handled = true;
+            }
+        }
     }
 }

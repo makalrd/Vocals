@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
 using System.Text;
+using Vocals.InternalClasses;
 using WMPLib;
 
 namespace Vocals {
@@ -79,9 +80,11 @@ namespace Vocals {
 
             SetForegroundWindow(winPointer);
             ShowWindow(winPointer, 5);
+
             foreach (Actions a in actionList) {
                 a.perform();
             }
+
             if (answering && answeringString != null) {
                 try {
                     SpeechSynthesizer synth = new SpeechSynthesizer();
@@ -95,17 +98,16 @@ namespace Vocals {
             }
 
             if (answeringSound && answeringSoundPath != null) {
-                if (answeringSoundPath.IndexOf(".wav") == answeringSoundPath.Length-4) {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-                    player.SoundLocation = answeringSoundPath;
-                    player.Play();
-                }
-                else if (answeringSoundPath.IndexOf(".mp3") == answeringSoundPath.Length - 4) {
-                    WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                string[] sounds = answeringSoundPath.Split(';');
+                string soundToPlay = string.Empty;
+                int indexSound = 0;
 
-                    wplayer.URL = answeringSoundPath;
-                    wplayer.controls.play();
+                if (sounds.Length > 1)
+                {
+                    Random rnd = new Random();
+                    indexSound = rnd.Next(sounds.Length);
                 }
+                Utils.PlaySound(sounds[indexSound]);
             }
         }
     }

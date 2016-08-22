@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCommand));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -42,30 +43,37 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.dgvSounds = new System.Windows.Forms.DataGridView();
+            this.SoundPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlaySound = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.RemoveSound = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button9 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSounds)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
             // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(6, 30);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(267, 20);
+            this.textBox1.Size = new System.Drawing.Size(380, 20);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // listBox1
             // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(15, 74);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(195, 134);
+            this.listBox1.Size = new System.Drawing.Size(295, 134);
             this.listBox1.TabIndex = 4;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button1
             // 
@@ -89,7 +97,8 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(511, 316);
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(332, 654);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 8;
@@ -99,7 +108,8 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 316);
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button5.Location = new System.Drawing.Point(12, 654);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 9;
@@ -109,33 +119,38 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(280, 71);
+            this.groupBox1.Size = new System.Drawing.Size(392, 120);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Command text";
+            this.groupBox1.Text = "When I say:";
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.listBox1);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 89);
+            this.groupBox2.Location = new System.Drawing.Point(12, 84);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(280, 221);
+            this.groupBox2.Size = new System.Drawing.Size(392, 231);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Actions";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            this.groupBox2.Text = "Do the next sequence Actions:";
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(216, 140);
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(323, 140);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(57, 23);
             this.button7.TabIndex = 10;
@@ -145,7 +160,8 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(216, 111);
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(323, 111);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(57, 23);
             this.button6.TabIndex = 9;
@@ -168,43 +184,84 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(6, 19);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(127, 17);
+            this.checkBox1.Size = new System.Drawing.Size(143, 17);
             this.checkBox1.TabIndex = 12;
-            this.checkBox1.Text = "Use voice synthetizer";
+            this.checkBox1.Text = "A synthetic voice saying:";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.Location = new System.Drawing.Point(6, 42);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(276, 92);
+            this.richTextBox1.Size = new System.Drawing.Size(377, 92);
             this.richTextBox1.TabIndex = 13;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.textBox2);
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.dgvSounds);
             this.groupBox4.Controls.Add(this.button9);
             this.groupBox4.Controls.Add(this.checkBox2);
             this.groupBox4.Controls.Add(this.checkBox1);
             this.groupBox4.Controls.Add(this.richTextBox1);
-            this.groupBox4.Location = new System.Drawing.Point(298, 12);
+            this.groupBox4.Location = new System.Drawing.Point(12, 327);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(288, 298);
+            this.groupBox4.Size = new System.Drawing.Size(392, 314);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Command answering";
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            this.groupBox4.Text = "Finally answer with...";
             // 
-            // textBox2
+            // dgvSounds
             // 
-            this.textBox2.Location = new System.Drawing.Point(7, 195);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(275, 20);
-            this.textBox2.TabIndex = 17;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.dgvSounds.AllowUserToAddRows = false;
+            this.dgvSounds.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSounds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSounds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SoundPath,
+            this.PlaySound,
+            this.RemoveSound});
+            this.dgvSounds.Location = new System.Drawing.Point(7, 194);
+            this.dgvSounds.Name = "dgvSounds";
+            this.dgvSounds.ReadOnly = true;
+            this.dgvSounds.Size = new System.Drawing.Size(373, 112);
+            this.dgvSounds.TabIndex = 18;
+            this.dgvSounds.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSounds_CellContentClick);
+            this.dgvSounds.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvSounds_CellPainting);
+            // 
+            // SoundPath
+            // 
+            this.SoundPath.HeaderText = "Sound Path";
+            this.SoundPath.Name = "SoundPath";
+            this.SoundPath.ReadOnly = true;
+            this.SoundPath.Width = 220;
+            // 
+            // PlaySound
+            // 
+            this.PlaySound.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.PlaySound.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.PlaySound.HeaderText = "Play";
+            this.PlaySound.Name = "PlaySound";
+            this.PlaySound.ReadOnly = true;
+            this.PlaySound.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.PlaySound.UseColumnTextForButtonValue = true;
+            this.PlaySound.Width = 50;
+            // 
+            // RemoveSound
+            // 
+            this.RemoveSound.HeaderText = "X";
+            this.RemoveSound.Name = "RemoveSound";
+            this.RemoveSound.ReadOnly = true;
+            this.RemoveSound.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.RemoveSound.Width = 50;
             // 
             // button9
             // 
@@ -212,7 +269,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(71, 23);
             this.button9.TabIndex = 16;
-            this.button9.Text = "Rechercher";
+            this.button9.Text = "Search";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
@@ -221,9 +278,9 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(7, 141);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(122, 17);
+            this.checkBox2.Size = new System.Drawing.Size(206, 17);
             this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "Use sound file (wav)";
+            this.checkBox2.Text = "One of the selected sounds ramdomly:";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -231,20 +288,22 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(598, 349);
+            this.ClientSize = new System.Drawing.Size(420, 689);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(360, 668);
             this.Name = "FormCommand";
             this.Text = "New Command";
-            this.Load += new System.EventHandler(this.FormPopup_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSounds)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -266,7 +325,10 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.DataGridView dgvSounds;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoundPath;
+        private System.Windows.Forms.DataGridViewButtonColumn PlaySound;
+        private System.Windows.Forms.DataGridViewButtonColumn RemoveSound;
     }
 }

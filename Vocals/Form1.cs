@@ -338,10 +338,13 @@ namespace Vocals {
                     Profile p = (Profile)comboBox2.SelectedItem;
 
                     if (p != null) {
-                        if (formCommand.commandString != null && formCommand.commandString != "" && formCommand.actionList.Count != 0) {
+                        if (!string.IsNullOrEmpty(formCommand.commandString) && formCommand.actionList.Count != 0) {
                             Command c;
                             c = new Command(formCommand.commandString, formCommand.actionList, formCommand.answering, formCommand.answeringString, formCommand.answeringSound, formCommand.answeringSoundPath);
                             p.addCommand(c);
+
+                            SaveProfiles();
+
                             listBox1.DataSource = null;
                             listBox1.DataSource = p.commandList;
                         }
@@ -370,14 +373,6 @@ namespace Vocals {
             }
         }
 
-        private void label1_Click(object sender, EventArgs e) {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
-
-        }
-
         private void button3_Click(object sender, EventArgs e) {
             Profile p = (Profile)(comboBox2.SelectedItem);
             profileList.Remove(p);
@@ -399,37 +394,49 @@ namespace Vocals {
             speechEngine.AudioLevelUpdated -= new EventHandler<AudioLevelUpdatedEventArgs>(sr_audioLevelUpdated);
             speechEngine.SpeechRecognized -= new EventHandler<SpeechRecognizedEventArgs>(sr_speechRecognized);
 
+            if (!SaveProfiles())
+                e.Cancel = true;
+        }
+
+        private bool SaveProfiles()
+        {
+            bool result = true;
             string dir = @"";
             string serializationFile = Path.Combine(dir, "profiles.vd");
             string xmlSerializationFile = Path.Combine(dir, "profiles_xml.vc");
-            try {
+            try
+            {
                 Stream stream = File.Open(serializationFile, FileMode.Create);
                 var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 bformatter.Serialize(stream, profileList);
                 stream.Close();
 
-                try {
+                try
+                {
                     Stream xmlStream = File.Open(xmlSerializationFile, FileMode.Create);
                     System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(List<Profile>));
                     writer.Serialize(xmlStream, profileList);
                     xmlStream.Close();
                 }
-                catch (Exception ex) {
-                    DialogResult res =  MessageBox.Show("Le fichier profiles_xml.vc est en cours d'utilisation par un autre processus. Voulez vous quitter sans sauvegarder ?", "Impossible de sauvegarder", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                    if (res == DialogResult.No) {
-                        e.Cancel = true;
+                catch (Exception ex)
+                {
+                    DialogResult res = MessageBox.Show("Le fichier profiles_xml.vc est en cours d'utilisation par un autre processus. Voulez vous quitter sans sauvegarder ?", "Impossible de sauvegarder", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                    if (res == DialogResult.No)
+                    {
+                        result = false;
                     }
                 }
 
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 DialogResult res = MessageBox.Show("Le fichier profiles.vd est en cours d'utilisation par un autre processus. Voulez vous quitter sans sauvegarder ?", "Impossible de sauvegarder", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (res == DialogResult.No) {
-                    e.Cancel = true;
+                if (res == DialogResult.No)
+                {
+                    result = false;
                 }
             }
-
-
+            return result;
         }
 
         private void button4_Click(object sender, EventArgs e) {
@@ -499,7 +506,8 @@ namespace Vocals {
                                 if (c.answeringString == null) {
                                     c.answeringString = "";
                                 }
-                               
+
+                                SaveProfiles();
 
                                 listBox1.DataSource = null;
                                 listBox1.DataSource = p.commandList;
